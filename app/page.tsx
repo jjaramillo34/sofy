@@ -8,6 +8,7 @@ import { BookCover } from "@/components/storybook/BookCover";
 import { BookNavigation } from "@/components/storybook/BookNavigation";
 import { DedicationLetter } from "@/components/storybook/DedicationLetter";
 import { NameAcrostic } from "@/components/storybook/NameAcrostic";
+import { PapaLetter } from "@/components/storybook/PapaLetter";
 import { PrologueSpread } from "@/components/storybook/PrologueSpread";
 import { StarryBackground } from "@/components/storybook/StarryBackground";
 import { StarryGuestbook } from "@/components/storybook/StarryGuestbook";
@@ -135,10 +136,11 @@ export default function Home() {
           >
             {chapter === 0 ? <BookCover onOpen={() => goTo(1)} /> : null}
             {chapter === 1 ? <PrologueSpread /> : null}
-            {chapter === 2 ? <AtelierGallery /> : null}
-            {chapter === 3 ? <DedicationLetter /> : null}
-            {chapter === 4 ? <NameAcrostic /> : null}
-            {chapter === 5 ? <StarryGuestbook /> : null}
+            {chapter === 2 ? <PapaLetter /> : null}
+            {chapter === 3 ? <AtelierGallery /> : null}
+            {chapter === 4 ? <DedicationLetter /> : null}
+            {chapter === 5 ? <NameAcrostic /> : null}
+            {chapter === 6 ? <StarryGuestbook /> : null}
           </motion.div>
         </AnimatePresence>
         <BookNavigation chapter={chapter} onChange={goTo} />
