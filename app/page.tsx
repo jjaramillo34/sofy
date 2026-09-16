@@ -1,69 +1,105 @@
-import Image from "next/image";
+"use client";
+
+import { useCallback, useEffect, useState } from "react";
+import { Column } from "@once-ui-system/core";
+import { AnimatePresence, motion, useReducedMotion } from "framer-motion";
+import { AtelierGallery } from "@/components/storybook/AtelierGallery";
+import { BookCover } from "@/components/storybook/BookCover";
+import { BookNavigation } from "@/components/storybook/BookNavigation";
+import { DedicationLetter } from "@/components/storybook/DedicationLetter";
+import { NameAcrostic } from "@/components/storybook/NameAcrostic";
+import { PrologueSpread } from "@/components/storybook/PrologueSpread";
+import { StarryBackground } from "@/components/storybook/StarryBackground";
+import { StarryGuestbook } from "@/components/storybook/StarryGuestbook";
+import { CHAPTERS } from "@/lib/chapters";
+
+const pageVariants = {
+  enter: (direction: number) => ({
+    rotateY: direction >= 0 ? 72 : -72,
+    opacity: 0,
+    x: direction >= 0 ? 48 : -48,
+  }),
+  center: {
+    rotateY: 0,
+    opacity: 1,
+    x: 0,
+  },
+  leave: (direction: number) => ({
+    rotateY: direction >= 0 ? -72 : 72,
+    opacity: 0,
+    x: direction >= 0 ? -48 : 48,
+  }),
+};
 
 export default function Home() {
+  const [chapter, setChapter] = useState(0);
+  const [direction, setDirection] = useState(1);
+  const reduceMotion = useReducedMotion();
+
+  const goTo = useCallback((next: number) => {
+    setChapter((current) => {
+      const bounded = Math.max(0, Math.min(CHAPTERS.length - 1, next));
+      setDirection(bounded >= current ? 1 : -1);
+      return bounded;
+    });
+  }, []);
+
+  useEffect(() => {
+    const onKey = (event: KeyboardEvent) => {
+      if (event.key === "ArrowRight") {
+        goTo(chapter + 1);
+      }
+      if (event.key === "ArrowLeft") {
+        goTo(chapter - 1);
+      }
+    };
+    window.addEventListener("keydown", onKey);
+    return () => window.removeEventListener("keydown", onKey);
+  }, [chapter, goTo]);
+
   return (
-    <div className="flex flex-col flex-1 items-center justify-center bg-zinc-50 font-sans dark:bg-black">
-      <main className="flex flex-1 w-full max-w-3xl flex-col items-center justify-between py-32 px-16 bg-white dark:bg-black sm:items-start">
-        <Image
-          className="dark:invert h-5 w-[100px]"
-          src="/next.svg"
-          alt="Next.js logo"
-          width={100}
-          height={20}
-          priority
-        />
-        <div className="flex flex-col items-center gap-6 text-center sm:items-start sm:text-left">
-          <h1 className="max-w-xs text-3xl font-semibold leading-10 tracking-tight text-black dark:text-zinc-50">
-            To get started, edit the{" "}
-            <code className="rounded bg-black/[.06] px-1.5 py-0.5 font-mono text-[0.9em] dark:bg-white/[.08]">
-              page.tsx
-            </code>{" "}
-            file.
-          </h1>
-          <p className="max-w-md text-lg leading-8 text-zinc-600 dark:text-zinc-400">
-            Looking for a starting point or more instructions? Head over to{" "}
-            <a
-              href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-              className="font-medium text-zinc-950 dark:text-zinc-50"
-            >
-              Templates
-            </a>{" "}
-            or the{" "}
-            <a
-              href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-              className="font-medium text-zinc-950 dark:text-zinc-50"
-            >
-              Learning
-            </a>{" "}
-            center.
-          </p>
-        </div>
-        <div className="flex flex-col gap-4 text-base font-medium sm:flex-row">
-          <a
-            className="flex h-12 w-full items-center justify-center gap-2 rounded-full bg-foreground px-5 text-background transition-colors hover:bg-[#383838] dark:hover:bg-[#ccc] md:w-[158px]"
-            href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
+    <Column fillWidth flex={1} style={{ minHeight: "100dvh" }} className="relative overflow-hidden">
+      <StarryBackground />
+      <div className="swirl-orb left-[-10%] top-[10%] h-72 w-72 bg-royal" />
+      <div className="swirl-orb right-[-8%] top-[30%] h-80 w-80 bg-star/40" style={{ animationDelay: "-8s" }} />
+      <div className="swirl-orb bottom-[-12%] left-[30%] h-64 w-64 bg-gold/30" style={{ animationDelay: "-16s" }} />
+
+      <Column
+        fillWidth
+        flex={1}
+        horizontal="center"
+        paddingX="16"
+        paddingY="24"
+        paddingBottom="80"
+        gap="16"
+        style={{ position: "relative", zIndex: 1 }}
+      >
+        <AnimatePresence mode="wait" custom={direction}>
+          <motion.div
+            key={chapter}
+            custom={direction}
+            variants={reduceMotion ? undefined : pageVariants}
+            initial={reduceMotion ? { opacity: 0 } : "enter"}
+            animate={reduceMotion ? { opacity: 1 } : "center"}
+            exit={reduceMotion ? { opacity: 0 } : "leave"}
+            transition={{ duration: 0.7, ease: [0.22, 1, 0.36, 1] }}
+            style={{
+              width: "100%",
+              maxWidth: 1080,
+              transformStyle: "preserve-3d",
+              transformOrigin: direction >= 0 ? "left center" : "right center",
+            }}
           >
-            <Image
-              className="dark:invert h-[14px] w-4"
-              src="/vercel.svg"
-              alt="Vercel logomark"
-              width={16}
-              height={14}
-            />
-            Deploy Now
-          </a>
-          <a
-            className="flex h-12 w-full items-center justify-center rounded-full border border-solid border-black/[.08] px-5 transition-colors hover:border-transparent hover:bg-black/[.04] dark:border-white/[.145] dark:hover:bg-[#1a1a1a] md:w-[158px]"
-            href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Documentation
-          </a>
-        </div>
-      </main>
-    </div>
+            {chapter === 0 ? <BookCover onOpen={() => goTo(1)} /> : null}
+            {chapter === 1 ? <PrologueSpread /> : null}
+            {chapter === 2 ? <AtelierGallery /> : null}
+            {chapter === 3 ? <DedicationLetter /> : null}
+            {chapter === 4 ? <NameAcrostic /> : null}
+            {chapter === 5 ? <StarryGuestbook /> : null}
+          </motion.div>
+        </AnimatePresence>
+        <BookNavigation chapter={chapter} onChange={goTo} />
+      </Column>
+    </Column>
   );
 }
