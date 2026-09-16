@@ -3,12 +3,14 @@ import "@once-ui-system/core/css/tokens.css";
 import "@/resources/custom.css";
 import "./globals.css";
 
+
 import classNames from "classnames";
 import type { Metadata, Viewport } from "next";
 import { Column, ThemeInit } from "@once-ui-system/core";
 import { Providers } from "@/components/Providers";
 import { getSiteUrl, siteConfig } from "@/lib/site";
 import { dataStyle, fonts, style } from "@/resources/once-ui.config";
+import { Analytics } from "@vercel/analytics/react";
 
 export const viewport: Viewport = {
   width: "device-width",
@@ -94,6 +96,7 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
         />
       </head>
       <body className="min-h-full antialiased" suppressHydrationWarning>
+        <Analytics />
         <Providers>
           <Column as="main" fillWidth style={{ minHeight: "100dvh" }}>
             {children}
