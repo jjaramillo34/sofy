@@ -4,7 +4,7 @@ import { Badge, Column, Heading, RevealFx, Text } from "@once-ui-system/core";
 
 export function DedicationLetter() {
   return (
-    <Column fillWidth gap="24" paddingY="16" horizontal="center">
+    <Column fillWidth gap="24" paddingY="8" s={{ paddingY: "4", gap: "16" }} horizontal="center">
       <Column gap="8" fillWidth>
         <Badge id="letter-badge" title="Una carta de casa" icon="mail" arrow={false} />
         <Heading as="h2" variant="display-strong-s" className="font-serif title-glow">
@@ -18,7 +18,9 @@ export function DedicationLetter() {
           background="surface"
           border="brand-alpha-medium"
           radius="xl"
-          padding="32"
+          padding="20"
+          s={{ padding: "16", gap: "16" }}
+          l={{ padding: "32", gap: "20" }}
           gap="20"
           className="gold-foil"
           style={{

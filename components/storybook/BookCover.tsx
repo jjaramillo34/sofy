@@ -9,7 +9,16 @@ type BookCoverProps = {
 
 export function BookCover({ onOpen }: BookCoverProps) {
   return (
-    <Column fillWidth horizontal="center" vertical="center" flex={1} padding="24" gap="32">
+    <Column
+      fillWidth
+      horizontal="center"
+      vertical="center"
+      flex={1}
+      padding="8"
+      s={{ padding: "4", gap: "20" }}
+      l={{ padding: "24", gap: "32" }}
+      gap="24"
+    >
       <motion.div
         initial={{ opacity: 0, rotateY: -18, y: 24 }}
         animate={{ opacity: 1, rotateY: 0, y: 0 }}
@@ -21,8 +30,10 @@ export function BookCover({ onOpen }: BookCoverProps) {
           background="surface"
           border="brand-alpha-medium"
           radius="xl"
-          padding="32"
-          gap="24"
+          padding="20"
+          s={{ padding: "16", gap: "16" }}
+          l={{ padding: "32", gap: "24" }}
+          gap="20"
           horizontal="center"
           className="gold-foil"
           style={{
@@ -43,14 +54,14 @@ export function BookCover({ onOpen }: BookCoverProps) {
             as="h1"
             variant="display-strong-l"
             align="center"
-            className="title-glow font-serif"
+            className="title-glow font-serif cover-title"
             wrap="balance"
             onBackground="brand-strong"
           >
             Una obra maestra estrellada: ¡feliz 14.º cumpleaños, Sofia Yaneli!
           </Heading>
           <Text
-            variant="body-default-l"
+            variant="body-default-m"
             onBackground="neutral-weak"
             align="center"
             wrap="balance"
@@ -60,7 +71,7 @@ export function BookCover({ onOpen }: BookCoverProps) {
             espiral, guardiana de lunas de oro y el color más brillante de nuestra noche.
           </Text>
           <Row gap="12" wrap horizontal="center">
-            <Button size="l" prefixIcon="sparkle" onClick={onOpen}>
+            <Button size="l" prefixIcon="sparkle" onClick={onOpen} className="cover-open">
               Abrir el libro
             </Button>
           </Row>

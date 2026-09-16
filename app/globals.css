@@ -17,6 +17,15 @@ html,
 body {
   background: #0b132b;
   color: #f8fafc;
+  overscroll-behavior-y: none;
+}
+
+@media (max-width: 768px) {
+  html,
+  body {
+    -webkit-text-size-adjust: 100%;
+    text-size-adjust: 100%;
+  }
 }
 
 ::selection {

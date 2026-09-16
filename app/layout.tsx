@@ -11,6 +11,9 @@ import { getSiteUrl, siteConfig } from "@/lib/site";
 import { dataStyle, fonts, style } from "@/resources/once-ui.config";
 
 export const viewport: Viewport = {
+  width: "device-width",
+  initialScale: 1,
+  viewportFit: "cover",
   themeColor: "#0B132B",
   colorScheme: "dark",
 };

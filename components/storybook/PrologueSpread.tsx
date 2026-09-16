@@ -4,7 +4,7 @@ import { Badge, Column, Heading, RevealFx, Row, Text } from "@once-ui-system/cor
 
 export function PrologueSpread() {
   return (
-    <Column fillWidth gap="24" paddingY="16">
+    <Column fillWidth gap="24" paddingY="8" s={{ paddingY: "4", gap: "16" }}>
       <RevealFx speed="medium" translateY={1}>
         <Column gap="12">
           <Badge id="prologue-badge" title="Prólogo" icon="sparkle" arrow={false} />
@@ -18,7 +18,9 @@ export function PrologueSpread() {
           background="surface"
           border="brand-alpha-weak"
           radius="l"
-          padding="32"
+          padding="20"
+          s={{ padding: "16", gap: "16" }}
+          l={{ padding: "32" }}
           gap="20"
           style={{
             background:

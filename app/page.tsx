@@ -1,6 +1,6 @@
 "use client";
 
-import { useCallback, useEffect, useState } from "react";
+import { useCallback, useEffect, useRef, useState, type PointerEvent } from "react";
 import { Column } from "@once-ui-system/core";
 import { AnimatePresence, motion, useReducedMotion } from "framer-motion";
 import { AtelierGallery } from "@/components/storybook/AtelierGallery";
@@ -12,6 +12,7 @@ import { PrologueSpread } from "@/components/storybook/PrologueSpread";
 import { StarryBackground } from "@/components/storybook/StarryBackground";
 import { StarryGuestbook } from "@/components/storybook/StarryGuestbook";
 import { CHAPTERS } from "@/lib/chapters";
+import { useMediaQuery } from "@/lib/use-media-query";
 
 const pageVariants = {
   enter: (direction: number) => ({
@@ -31,10 +32,29 @@ const pageVariants = {
   }),
 };
 
+const mobilePageVariants = {
+  enter: (direction: number) => ({
+    opacity: 0,
+    x: direction >= 0 ? 28 : -28,
+  }),
+  center: {
+    opacity: 1,
+    x: 0,
+  },
+  leave: (direction: number) => ({
+    opacity: 0,
+    x: direction >= 0 ? -28 : 28,
+  }),
+};
+
+const SWIPE_IGNORE = "button, a, input, textarea, select, canvas, [role='dialog']";
+
 export default function Home() {
   const [chapter, setChapter] = useState(0);
   const [direction, setDirection] = useState(1);
   const reduceMotion = useReducedMotion();
+  const isMobile = useMediaQuery("(max-width: 768px)");
+  const swipeOrigin = useRef<{ x: number; y: number } | null>(null);
 
   const goTo = useCallback((next: number) => {
     setChapter((current) => {
@@ -57,8 +77,31 @@ export default function Home() {
     return () => window.removeEventListener("keydown", onKey);
   }, [chapter, goTo]);
 
+  useEffect(() => {
+    window.scrollTo({ top: 0, behavior: reduceMotion ? "auto" : "smooth" });
+  }, [chapter, reduceMotion]);
+
+  const onPointerDown = (event: PointerEvent<HTMLDivElement>) => {
+    if ((event.target as HTMLElement).closest(SWIPE_IGNORE)) {
+      swipeOrigin.current = null;
+      return;
+    }
+    swipeOrigin.current = { x: event.clientX, y: event.clientY };
+  };
+
+  const onPointerUp = (event: PointerEvent<HTMLDivElement>) => {
+    if (!swipeOrigin.current) return;
+    const dx = event.clientX - swipeOrigin.current.x;
+    const dy = event.clientY - swipeOrigin.current.y;
+    swipeOrigin.current = null;
+    if (Math.abs(dx) < 56 || Math.abs(dx) < Math.abs(dy) * 1.4) return;
+    goTo(chapter + (dx < 0 ? 1 : -1));
+  };
+
+  const variants = isMobile ? mobilePageVariants : pageVariants;
+
   return (
-    <Column fillWidth flex={1} style={{ minHeight: "100dvh" }} className="relative overflow-hidden">
+    <Column fillWidth flex={1} className="relative min-h-dvh overflow-x-hidden">
       <StarryBackground />
       <div className="swirl-orb left-[-10%] top-[10%] h-72 w-72 bg-royal" />
       <div className="swirl-orb right-[-8%] top-[30%] h-80 w-80 bg-star/40" style={{ animationDelay: "-8s" }} />
@@ -68,25 +111,25 @@ export default function Home() {
         fillWidth
         flex={1}
         horizontal="center"
-        paddingX="16"
-        paddingY="24"
-        paddingBottom="80"
         gap="16"
+        className="storybook-shell"
         style={{ position: "relative", zIndex: 1 }}
+        onPointerDown={onPointerDown}
+        onPointerUp={onPointerUp}
       >
         <AnimatePresence mode="wait" custom={direction}>
           <motion.div
             key={chapter}
             custom={direction}
-            variants={reduceMotion ? undefined : pageVariants}
+            variants={reduceMotion ? undefined : variants}
             initial={reduceMotion ? { opacity: 0 } : "enter"}
             animate={reduceMotion ? { opacity: 1 } : "center"}
             exit={reduceMotion ? { opacity: 0 } : "leave"}
-            transition={{ duration: 0.7, ease: [0.22, 1, 0.36, 1] }}
+            transition={{ duration: isMobile ? 0.35 : 0.7, ease: [0.22, 1, 0.36, 1] }}
             style={{
               width: "100%",
               maxWidth: 1080,
-              transformStyle: "preserve-3d",
+              transformStyle: isMobile ? undefined : "preserve-3d",
               transformOrigin: direction >= 0 ? "left center" : "right center",
             }}
           >

@@ -5,7 +5,7 @@ import { acrosticSofia, acrosticYaneli } from "@/lib/acrostic";
 
 export function NameAcrostic() {
   return (
-    <Column fillWidth gap="24" paddingY="16">
+    <Column fillWidth gap="24" paddingY="8" s={{ paddingY: "4", gap: "16" }}>
       <Column gap="8">
         <Badge id="name-acrostic-badge" title="Tu nombre" icon="sparkle" arrow={false} />
         <Heading as="h2" variant="display-strong-s" className="font-serif title-glow">
@@ -37,7 +37,9 @@ function AcrosticCard({
       <Column
         fillWidth
         gap="16"
-        padding="24"
+        padding="16"
+        s={{ padding: "16" }}
+        l={{ padding: "24" }}
         background="surface"
         border="brand-alpha-medium"
         radius="xl"
@@ -52,13 +54,10 @@ function AcrosticCard({
         </Text>
         <Column gap="12">
           {lines.map((item) => (
-            <Row key={`${name}-${item.letter}-${item.line}`} gap="16" vertical="start">
+            <Row key={`${name}-${item.letter}-${item.line}`} gap="12" s={{ gap: "8" }} vertical="start">
               <Text
-                className="font-serif title-glow"
+                className="font-serif title-glow acrostic-letter"
                 style={{
-                  minWidth: "2.25rem",
-                  fontSize: "2rem",
-                  lineHeight: 1,
                   color: "#fcd34d",
                   fontWeight: 700,
                 }}

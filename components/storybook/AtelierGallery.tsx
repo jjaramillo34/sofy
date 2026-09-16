@@ -12,15 +12,15 @@ import {
   RevealFx,
   Row,
   Text,
-  TiltFx,
 } from "@once-ui-system/core";
+import { HoverTilt } from "@/components/storybook/HoverTilt";
 import { artworks, artworkSrc, type Artwork } from "@/lib/artworks";
 
 export function AtelierGallery() {
   const [selected, setSelected] = useState<Artwork | null>(null);
 
   return (
-    <Column fillWidth gap="24" paddingY="16">
+    <Column fillWidth gap="24" paddingY="8" s={{ paddingY: "4", gap: "16" }}>
       <Column gap="8">
         <Badge id="atelier-badge" title="El atelier de Sofia" icon="eyeDropper" arrow={false} />
         <Heading as="h2" variant="display-strong-s" className="font-serif title-glow">
@@ -34,7 +34,7 @@ export function AtelierGallery() {
       <Grid columns="3" m={{ columns: "2" }} s={{ columns: "1" }} gap="20">
         {artworks.map((artwork, index) => (
           <RevealFx key={artwork.id} delay={index * 0.08} translateY={1} speed="medium">
-            <TiltFx intensity={0.7} fillWidth>
+            <HoverTilt intensity={0.7}>
               <Card
                 fillWidth
                 padding="12"
@@ -61,7 +61,7 @@ export function AtelierGallery() {
                       src={artworkSrc(artwork)}
                       alt={artwork.title}
                       aspectRatio="4 / 5"
-                      sizes="(max-width: 768px) 100vw, 33vw"
+                      sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
                       radius="none"
                     />
                   </Column>
@@ -90,7 +90,7 @@ export function AtelierGallery() {
                   </Column>
                 </Column>
               </Card>
-            </TiltFx>
+            </HoverTilt>
           </RevealFx>
         ))}
       </Grid>
@@ -100,6 +100,7 @@ export function AtelierGallery() {
         title={selected?.title ?? ""}
         description={selected ? `${selected.medium} · ${selected.date}` : ""}
         background="surface"
+        className="atelier-dialog"
       >
         {selected ? (
           <Column gap="16">
@@ -107,7 +108,7 @@ export function AtelierGallery() {
               src={artworkSrc(selected)}
               alt={selected.title}
               aspectRatio="4 / 5"
-              sizes="80vw"
+              sizes="(max-width: 640px) 92vw, 80vw"
               radius="m"
               enlarge
             />

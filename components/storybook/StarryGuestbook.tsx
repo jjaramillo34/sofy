@@ -19,9 +19,9 @@ import {
   Row,
   Text,
   Textarea,
-  TiltFx,
   useToast,
 } from "@once-ui-system/core";
+import { HoverTilt } from "@/components/storybook/HoverTilt";
 import {
   seedWishes,
   STARS_STORAGE_KEY,
@@ -193,7 +193,7 @@ export function StarryGuestbook() {
   };
 
   return (
-    <Column fillWidth gap="32" paddingY="16">
+    <Column fillWidth gap="24" paddingY="8" s={{ paddingY: "4", gap: "16" }}>
       <Column gap="8">
         <Badge id="sky-badge" title="Libro de deseos" icon="sparkle" arrow={false} />
         <Heading as="h2" variant="display-strong-s" className="font-serif title-glow">
@@ -223,7 +223,7 @@ export function StarryGuestbook() {
           onClick={dropStar}
           role="img"
           aria-label="Cielo estrellado interactivo. Haz clic o toca para añadir una estrella de oro."
-          className="h-[min(52vh,420px)] w-full cursor-crosshair rounded-[1.5rem] border border-[rgba(252,211,77,0.45)] bg-[#0b132b]"
+          className="guestbook-sky h-[min(42dvh,320px)] w-full cursor-crosshair rounded-[1.25rem] border border-[rgba(252,211,77,0.45)] bg-[#0b132b] touch-none sm:h-[min(52vh,420px)] sm:rounded-[1.5rem]"
         />
       </Column>
 
@@ -231,7 +231,9 @@ export function StarryGuestbook() {
         <form onSubmit={handleWish}>
           <Column
             gap="16"
-            padding="24"
+            padding="16"
+            s={{ padding: "16" }}
+            l={{ padding: "24" }}
             background="surface"
             border="brand-alpha-weak"
             radius="l"
@@ -254,14 +256,14 @@ export function StarryGuestbook() {
               placeholder="Una nota para Sofia Yaneli..."
               lines={4}
             />
-            <Button type="submit" prefixIcon="gift">
+            <Button type="submit" prefixIcon="gift" fillWidth>
               Dejar este deseo en el cielo
             </Button>
           </Column>
         </form>
         <Column gap="12">
           {wishes.map((wish) => (
-            <TiltFx key={wish.id} intensity={0.4} fillWidth>
+            <HoverTilt key={wish.id} intensity={0.4}>
               <Card
                 fillWidth
                 padding="20"
@@ -283,7 +285,7 @@ export function StarryGuestbook() {
                   {wish.message}
                 </Text>
               </Card>
-            </TiltFx>
+            </HoverTilt>
           ))}
         </Column>
       </Grid>

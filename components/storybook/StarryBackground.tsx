@@ -69,7 +69,9 @@ export function StarryBackground() {
         { x: width * 0.7, y: height * 0.72, strength: 0.85, radius: Math.min(width, height) * 0.26 },
       );
 
-      const count = Math.round(Math.min(1400, (width * height) / 1400));
+      const density = width < 720 ? 3800 : 1400;
+      const cap = width < 720 ? 280 : 1400;
+      const count = Math.round(Math.min(cap, (width * height) / density));
       particles.length = 0;
       for (let i = 0; i < count; i += 1) {
         particles.push(spawn(width, height));
