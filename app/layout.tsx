@@ -4,15 +4,50 @@ import "@/resources/custom.css";
 import "./globals.css";
 
 import classNames from "classnames";
-import type { Metadata } from "next";
+import type { Metadata, Viewport } from "next";
 import { Column, ThemeInit } from "@once-ui-system/core";
 import { Providers } from "@/components/Providers";
+import { getSiteUrl, siteConfig } from "@/lib/site";
 import { dataStyle, fonts, style } from "@/resources/once-ui.config";
 
+export const viewport: Viewport = {
+  themeColor: "#0B132B",
+  colorScheme: "dark",
+};
+
 export const metadata: Metadata = {
-  title: "Una obra maestra estrellada — Feliz 14.º cumpleaños, Sofia Yaneli",
-  description:
-    "Un cuento digital para el 14.º cumpleaños de Sofia Yaneli Jaramillo Bustos, inspirado en La noche estrellada y en su espíritu artístico.",
+  metadataBase: new URL(getSiteUrl()),
+  title: siteConfig.title,
+  description: siteConfig.description,
+  applicationName: siteConfig.shortTitle,
+  authors: [{ name: "Mamá y Papá" }],
+  keywords: [
+    "Sofia Yaneli",
+    "cumpleaños",
+    "14 años",
+    "La noche estrellada",
+    "Van Gogh",
+  ],
+  openGraph: {
+    type: "website",
+    locale: siteConfig.locale,
+    url: "/",
+    siteName: siteConfig.shortTitle,
+    title: siteConfig.title,
+    description: siteConfig.description,
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: siteConfig.shortTitle,
+    description: siteConfig.description,
+  },
+  icons: {
+    icon: [
+      { url: "/favicon.ico", sizes: "any" },
+      { url: "/icon", type: "image/png" },
+    ],
+    apple: [{ url: "/apple-icon", type: "image/png" }],
+  },
 };
 
 export default function RootLayout({ children }: LayoutProps<"/">) {
