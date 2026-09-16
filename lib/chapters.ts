@@ -1,7 +1,7 @@
 export const CHAPTERS = [
   { id: "cover", title: "Portada", kicker: "El gran revelado" },
   { id: "prologue", title: "Prólogo", kicker: "Érase una noche estrellada" },
-  { id: "papa", title: "Papá", kicker: "Una carta de tu papá" },
+  { id: "papa", title: "Papá y Mamá", kicker: "Una carta de tu papá" },
   { id: "atelier", title: "Atelier", kicker: "La galería de Sofia" },
   { id: "dedication", title: "Carta", kicker: "Una carta de casa" },
   { id: "nombre", title: "Nombre", kicker: "Sofía Yaneli" },
