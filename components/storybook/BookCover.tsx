@@ -58,7 +58,7 @@ export function BookCover({ onOpen }: BookCoverProps) {
             wrap="balance"
             onBackground="brand-strong"
           >
-            Una obra maestra estrellada: ¡feliz 14.º cumpleaños, Sofia Yaneli!
+            Una obra maestra estrellada: Con mucho amor para ti Sofia Yaneli. Feliz Cumpleaños.
           </Heading>
           <Text
             variant="body-default-m"
